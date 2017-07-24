@@ -63,7 +63,7 @@ type
 
 implementation
 
-{$ifdef DelphiXE2_UP}
+{$ifdef DelphiXE3_UP}
 {$else}
 uses
   StrUtils;
@@ -182,7 +182,7 @@ begin
   ASliceName := '';
   AParamName := AName;
 
-  {$ifdef DelphiXE2_UP}
+  {$ifdef DelphiXE3_UP}
   LTokens := AName.Split([SLICE_SEPARATOR]);
   {$else}
   LTokens := TArray<string>(SplitString(AName, SLICE_SEPARATOR));
