@@ -6,6 +6,7 @@
 unit MARS.http.Server.Indy;
 
 {$I MARS.inc}
+{$DENYPACKAGEUNIT OFF}
 
 interface
 
@@ -126,7 +127,7 @@ var
 {$ifdef DelphiXE7_UP}
   LIdCookie: TIdCookie;
 {$else}
-  LIdCookie: TIdCookieRFC2109;
+  LIdCookie: TIdCookie;
 {$endif}
   LIndex: Integer;
 begin

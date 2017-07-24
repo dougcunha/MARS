@@ -547,8 +547,8 @@ end;
 function AuthorizationAttribute.ToString: string;
 begin
   Result := ClassName;
-  if Result.EndsWith('Attribute', True) then
-    Result := Result.Substring(0, Result.Length - 'Attribute'.Length);
+  if Pos('Attribute', Result) = Length(Result) - Length('Attribute') then
+    Result := Copy(Result, 0, Length(Result+'Attribute'));
 end;
 
 end.

@@ -1,0 +1,166 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{3E2D5316-3F9C-4C27-88EF-0FB7CD4692D4}</ProjectGuid>
+			<ProjectVersion>13.4</ProjectVersion>
+			<FrameworkType>VCL</FrameworkType>
+			<MainSource>Projeto.dpr</MainSource>
+			<Base>True</Base>
+			<Config Condition="'$(Config)'==''">Debug</Config>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
+			<TargetedPlatforms>1</TargetedPlatforms>
+			<AppType>Application</AppType>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+			<Base_Win32>true</Base_Win32>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+			<Cfg_1_Win32>true</Cfg_1_Win32>
+			<CfgParent>Cfg_1</CfgParent>
+			<Cfg_1>true</Cfg_1>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
+			<Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
+			<DCC_UsePackage>DBXInterBaseDriver;DataSnapServer;DataSnapCommon;DbxCommonDriver;dbxcds;CustomIPTransport;dsnap;IndyCore;dbrtl;inetdb;xmlrtl;ibxpress;DBXInformixDriver;DBXFirebirdDriver;inet;DBXSybaseASADriver;dbexpress;fmx;IndySystem;DataSnapClient;DataSnapProviderClient;DBXOracleDriver;inetdbxpress;rtl;DbxClientDriver;IndyProtocols;DBXMySQLDriver;DataSnapIndy10ServerTransport;$(DCC_UsePackage)</DCC_UsePackage>
+			<DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+			<DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base_Win32)'!=''">
+			<DCC_UsePackage>dxTileControlRS16;JvMM;cxLibraryRS16;JvManagedThreads;ipstudiowindataset;rbDIDE1816;TxCmn;RaizeComponentsVcl;JvCrypt;dxPsPrVwAdvRS16;dxRibbonCustomizationFormRS16;dxPSCoreRS16;dxRichEditInplaceRS16;dxPScxTLLnkRS16;dxPScxGridLnkRS16;dxPSdxSpreadSheetLnkRS16;JvNet;cxPageControlRS16;cxPivotGridOLAPRS16;vclimg;dxComnRS16;JvXPCtrls;vcldb;dxOfficeCoreRS16;CodeSiteLoggingPkg;dxADOServerModeRS16;dxBarExtDBItemsRS16;dxSpreadSheetInplaceRichEditRS16;CloudService;FmxTeeUI;cxDataRS16;dxSkinMetropolisRS16;dxDockingRS16;dxPSDBTeeChartRS16;TxToo;JvDB;JvRuntimeDesign;rbDB1816;dxSpreadSheetReportDesignerRS16;dxBarExtItemsRS16;dxPSLnksRS16;dxPSdxPDFViewerLnkRS16;JclDeveloperTools;dxscene;dxPSTeeChartRS16;dxPSdxLCLnkRS16;dclRBBDE1816;cxVerticalGridRS16;dxorgcRS16;dxWizardControlRS16;dxPScxExtCommonRS16;vcldbx;dxNavBarRS16;cxSchedulerTreeBrowserRS16;rbUSERDesign1816;JvPluginSystem;bindcomp;DBXOdbcDriver;JvCmp;dxdbtrRS16;madDisAsm_;ComDrv;dxSkinscxPCPainterRS16;dxPSdxDBTVLnkRS16;vclactnband;FMXTee;bindengine;dxPScxSchedulerLnkRS16;dxServerModeRS16;Jcl;vclie;madExcept_;CodeSiteDBToolsPkg;ipstudiowinclient;dsnapcon;dxHttpIndyRequestRS16;pckISQLBuilderVisualizer;JvPascalInterpreter;vclx;dxFlowChartRS16;dxGDIPlusRS16;dxdborRS16;dxPDFViewerRS16;dxPScxVGridLnkRS16;dxLayoutControlRS16;dxSpreadSheetRS16;dxPScxPivotGridLnkRS16;dxCoreRS16;dxPSdxMapControlLnkRS16;cxExportRS16;dxBarRS16;AbbreviaVCL;dxSkinsdxNavBarPainterRS16;dxSkinOffice2016DarkRS16;JvDlgs;cxTreeListdxBarPopupMenuRS16;TeeDB;dxPSdxGaugeControlLnkRS16;dxDBXServerModeRS16;inetdbbde;vclib;dxRibbonRS16;DBXSybaseASEDriver;dxSpreadSheetConditionalFormattingDialogsRS16;cxTreeListRS16;dxSkinOffice2016ColorfulRS16;dxSkinsdxRibbonPainterRS16;vcldsnap;dxGaugeControlRS16;DBXDb2Driver;JvCore;vclribbon;TxAdo;dxSkinscxSchedulerPainterRS16;vcl;rbUSER1816;DBXMSSQLDriver;JvAppFrm;cxSchedulerGridRS16;dxRichEditControlCoreRS16;dxSkinsdxDLPainterRS16;dxtrmdRS16;adortl;TxCtl;JvWizards;xmldset;rbIDE1816;madBasic_;dxRichEditControlRS16;JvHMI;JvBands;RaizeComponentsVclDb;dxPSdxDBOCLnkRS16;rbRIDE1816;dxSkinsdxBarPainterRS16;Tee;rbRAP1816;dxSkinsCoreRS16;JvSystem;svnui;rbDAD1816;cxPivotGridChartRS16;JvControls;dxmdsRS16;dxPScxCommonRS16;dxMapControlRS16;cxGridRS16;dxPSPrVwRibbonRS16;rbCIDE1816;cxEditorsRS16;TeeUI;rbBDE1816;cxPivotGridRS16;dxSpellCheckerRS16;JvPrintPreview;ipstudiowin;JvPageComps;JvStdCtrls;JvCustom;BCEditorRuntime;dclRBE1816;dclRBADO1816;cxSchedulerRS16;cxSchedulerRibbonStyleEventEditorRS16;vcltouch;PngComponents;rbDBDE1816;VclSmp;dxTabbedMDIRS16;dxPSRichEditControlLnkRS16;DataSnapConnectors;dxSkinMetropolisDarkRS16;dxPSdxOCLnkRS16;dxPSdxFCLnkRS16;dxThemeRS16;TxDb;JclVcl;dxPScxPCProdRS16;svn;rbADO1816;rbRCL1816;bdertl;dxBarDBNavRS16;$(DCC_UsePackage)</DCC_UsePackage>
+			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+			<DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+			<VerInfo_Locale>1033</VerInfo_Locale>
+			<Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+			<DCC_Optimize>false</DCC_Optimize>
+			<DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+			<DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+			<DCC_RemoteDebug>true</DCC_RemoteDebug>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+			<DCC_UnitSearchPath>$(XE2BPL);$(XE2LIB);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<VerInfo_Locale>1033</VerInfo_Locale>
+			<DCC_RemoteDebug>false</DCC_RemoteDebug>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_DebugInformation>false</DCC_DebugInformation>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="$(MainSource)">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="unit1.pas">
+				<Form>Form5</Form>
+				<FormType>dfm</FormType>
+			</DCCReference>
+			<DCCReference Include="..\..\Source\MARS.http.Server.Indy.pas"/>
+			<DCCReference Include="resources.pas"/>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1046</VersionInfo>
+						<VersionInfo Name="CodePage">1252</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\xe2bpl\JvMMDesign160.bpl">JVCL Multimedia and Image Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclbindcomp160.bpl">Embarcadero LiveBindings Components</Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\xe2bpl\JvBandsDesign160.bpl">JVCL Band Objects</Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\xe2bpl\JvCryptDesign160.bpl">JVCL Encryption and Compression</Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\xe2bpl\JvHMIDesign160.bpl">JVCL HMI Controls</Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\xe2bpl\JvManagedThreadsDesign160.bpl">JVCL Managed Threads</Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\xe2bpl\JvPascalInterpreterDesign160.bpl">JVCL Interpreter Components</Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\xe2bpl\JclProjectAnalysisExpert160.bpl">JCL Project Analyzer</Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\xe2bpl\dcldxDBXServerModeRS16.bpl">dbExpress Data Source for ExpressDataController Server Mode by Developer Express Inc.</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcl31w160.bpl">Delphi 1.0 Compatibility Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclCloudService160.bpl">Embarcadero Cloud management components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclDataSnapClient160.bpl">Embarcadero DBExpress DataSnap Client Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclDataSnapIndy10ServerTransport160.bpl">Embarcadero DBExpress DataSnap Server Transport Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclDataSnapProviderClient160.bpl">Embarcadero DBExpress DataSnap Provider Client Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dcldbxcds160.bpl">Embarcadero SimpleDataset Component (DBX)</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclemacsedit160.bpl">Embarcadero Editor Emacs Enhancements</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclsmp160.bpl">Embarcadero Sample Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclsmpedit160.bpl">Embarcadero Editor Script Enhancements</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\svnide160.bpl">Embarcadero Subversion Integration</Excluded_Packages>
+						<Excluded_Packages Name="d:\vcl\CO2Bpl\agileLibDcl.bpl">File d:\vcl\CO2Bpl\agileLibDcl.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="D:\Vcl\co2bpl\cbo.comum.bpl">File D:\Vcl\co2bpl\cbo.comum.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="d:\vcl\CO2Bpl\cbo.tools.bpl">File d:\vcl\CO2Bpl\cbo.tools.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="d:\vcl\CO2Bpl\cbo.sintegra.bpl">File d:\vcl\CO2Bpl\cbo.sintegra.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclbindcompfmx160.bpl">Embarcadero LiveBindings Components FireMonkey</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclbindcompvcl160.bpl">Embarcadero LiveBindings Components VCL</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\dclIPIndyImpl160.bpl">IP Abstraction Indy Implementation Design Time</Excluded_Packages>
+					</Excluded_Packages>
+					<Source>
+						<Source Name="MainSource">Projeto.dpr</Source>
+					</Source>
+				</Delphi.Personality>
+				<Deployment/>
+				<Platforms>
+					<Platform value="Win32">True</Platform>
+				</Platforms>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+	</Project>

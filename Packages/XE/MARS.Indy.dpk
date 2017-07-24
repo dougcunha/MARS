@@ -25,7 +25,7 @@ package MARS.ReadersAndWriters;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'MARS-Curiosity Readers and Writers'}
+{$DESCRIPTION 'MARS-Curiosity Indy'}
 {$LIBSUFFIX '150'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
@@ -37,14 +37,13 @@ requires
   inet,
   IndySystem,
   IndyProtocols,
-  IndyCore,
-  dsnap,
   MARS.Utils,
-  MARS.Core;
+  dsnap,
+  MARS.Core,
+  IndyCore;
 
 contains
-  MARS.Core.MessageBodyWriters in '..\..\Source\MARS.Core.MessageBodyWriters.pas',
-  MARS.Data.MessageBodyWriters in '..\..\Source\MARS.Data.MessageBodyWriters.pas';
+  MARS.http.Server.Indy in '..\..\Source\MARS.http.Server.Indy.pas';
 
 end.
 

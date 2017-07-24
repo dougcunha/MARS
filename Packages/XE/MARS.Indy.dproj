@@ -1,7 +1,7 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{5170D912-4303-47AD-85A6-D77D3D0874DA}</ProjectGuid>
-			<MainSource>MARS.ReadersAndWriters.dpk</MainSource>
+			<ProjectGuid>{5170D912-4303-47AD-85A6-D77D3D0874D5}</ProjectGuid>
+			<MainSource>MARS.Indy.dpk</MainSource>
 			<ProjectVersion>18.2</ProjectVersion>
 			<FrameworkType>None</FrameworkType>
 			<Base>True</Base>
@@ -37,13 +37,13 @@
 			<DCC_UnitSearchPath>..\..\Source\Core;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
 			<RuntimeOnlyPackage>true</RuntimeOnlyPackage>
 			<DllSuffix>150</DllSuffix>
-			<DCC_Description>MARS-Curiosity Readers and Writers</DCC_Description>
+			<DCC_Description>MARS-Curiosity Indy</DCC_Description>
 			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
 			<VerInfo_Locale>1040</VerInfo_Locale>
 			<GenPackage>true</GenPackage>
 			<DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
 			<GenDll>true</GenDll>
-			<SanitizedProjectName>MARS_ReadersAndWriters</SanitizedProjectName>
+			<SanitizedProjectName>MARS_Indy</SanitizedProjectName>
 			<DCC_DcuOutput>..\..\Lib\$(Platform)\$(Config)</DCC_DcuOutput>
 			<DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
 			<DCC_E>false</DCC_E>
@@ -79,12 +79,11 @@
 			<DCCReference Include="inet.dcp"/>
 			<DCCReference Include="IndySystem.dcp"/>
 			<DCCReference Include="IndyProtocols.dcp"/>
-			<DCCReference Include="IndyCore.dcp"/>
-			<DCCReference Include="dsnap.dcp"/>
 			<DCCReference Include="MARS.Utils.dcp"/>
+			<DCCReference Include="dsnap.dcp"/>
 			<DCCReference Include="MARS.Core.dcp"/>
-			<DCCReference Include="..\..\Source\MARS.Core.MessageBodyWriters.pas"/>
-			<DCCReference Include="..\..\Source\MARS.Data.MessageBodyWriters.pas"/>
+			<DCCReference Include="IndyCore.dcp"/>
+			<DCCReference Include="..\..\Source\MARS.http.Server.Indy.pas"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
@@ -105,7 +104,7 @@
 			<BorlandProject>
 				<Delphi.Personality>
 					<Source>
-						<Source Name="MainSource">MARS.ReadersAndWriters.dpk</Source>
+						<Source Name="MainSource">MARS.Indy.dpk</Source>
 					</Source>
 					<Excluded_Packages>
 						<Excluded_Packages Name="d:\vcl\CO2Bpl\agileLibDcl.bpl">File d:\vcl\CO2Bpl\agileLibDcl.bpl not found</Excluded_Packages>
@@ -133,32 +132,32 @@
 					</VersionInfo>
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
-						<VersionInfoKeys Name="FileDescription">MARS.ReadersAndWriters</VersionInfoKeys>
+						<VersionInfoKeys Name="FileDescription">MARS.Indy</VersionInfoKeys>
 						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>
 						<VersionInfoKeys Name="OriginalFilename"/>
-						<VersionInfoKeys Name="ProductName">MARS.ReadersAndWriters</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductName">MARS.Indy</VersionInfoKeys>
 						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments"/>
-						<VersionInfoKeys Name="ProgramID">com.embarcadero.MARS.ReadersAndWriters</VersionInfoKeys>
+						<VersionInfoKeys Name="ProgramID">com.embarcadero.MARS.Indy</VersionInfoKeys>
 					</VersionInfoKeys>
 				</Delphi.Personality>
 				<Deployment Version="3">
+					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\MARS.Indy240.bpl">
+						<Platform Name="Win32">
+							<RemoteName>MARS_Indy.bpl</RemoteName>
+						</Platform>
+					</DeployFile>
 					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib">
 						<Platform Name="OSX32"/>
-					</DeployFile>
-					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib">
-						<Platform Name="iOSSimulator"/>
 					</DeployFile>
 					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\MARS.ReadersAndWriters240.bpl">
-						<Platform Name="Win32">
-							<RemoteName>MARS_ReadersAndWriters.bpl</RemoteName>
-						</Platform>
+					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib">
+						<Platform Name="iOSSimulator"/>
 					</DeployFile>
 					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib">
 						<Platform Name="iOSSimulator"/>
@@ -171,13 +170,13 @@
 					</DeployClass>
 					<DeployClass Name="ProjectOSXInfoPList"/>
 					<DeployClass Name="iPad_Launch2048">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSSimulator">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -228,24 +227,24 @@
 					</DeployClass>
 					<DeployClass Name="ProjectOSXEntitlements"/>
 					<DeployClass Name="ProjectiOSResource">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSSimulator">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPhone_Launch640">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSSimulator">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -268,13 +267,13 @@
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPhone_Launch320">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSSimulator">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -358,13 +357,13 @@
 					</DeployClass>
 					<DeployClass Name="ProjectiOSInfoPList"/>
 					<DeployClass Name="iPad_Launch1024">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSSimulator">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -388,13 +387,13 @@
 					</DeployClass>
 					<DeployClass Name="ProjectiOSDeviceResourceRules"/>
 					<DeployClass Name="iPad_Launch768">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSSimulator">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -435,13 +434,13 @@
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPhone_Launch640x1136">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSSimulator">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -478,13 +477,13 @@
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPad_Launch1536">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSSimulator">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -513,14 +512,14 @@
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
-					<ProjectRoot Name="$(PROJECTNAME)" Platform="OSX32"/>
+					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSDevice32"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Android"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Win32"/>
 					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSDevice64"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Linux64"/>
+					<ProjectRoot Name="$(PROJECTNAME)" Platform="OSX32"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Win64"/>
 					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSSimulator"/>
-					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSDevice32"/>
 				</Deployment>
 				<Platforms>
 					<Platform value="Win64">False</Platform>
