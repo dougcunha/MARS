@@ -55,7 +55,6 @@
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
 			<Manifest_File>None</Manifest_File>
-			<DCC_ExeOutput>$(XE2BPL)</DCC_ExeOutput>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 			<DCC_DcuOutput>$(XE2LIB)</DCC_DcuOutput>
 			<DCC_RemoteDebug>false</DCC_RemoteDebug>
@@ -116,7 +115,7 @@
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Excluded_Packages>
-						<Excluded_Packages Name="d:\vcl\CO2Bpl\agileLibDcl.bpl">File d:\vcl\CO2Bpl\agileLibDcl.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="d:\vcl\CO2Bpl\agileLibDcl.bpl">NCR | Lib | Vcl</Excluded_Packages>
 						<Excluded_Packages Name="D:\Vcl\co2bpl\cbo.comum.bpl">File D:\Vcl\co2bpl\cbo.comum.bpl not found</Excluded_Packages>
 						<Excluded_Packages Name="d:\vcl\CO2Bpl\cbo.tools.bpl">File d:\vcl\CO2Bpl\cbo.tools.bpl not found</Excluded_Packages>
 						<Excluded_Packages Name="d:\vcl\CO2Bpl\cbo.sintegra.bpl">File d:\vcl\CO2Bpl\cbo.sintegra.bpl not found</Excluded_Packages>
