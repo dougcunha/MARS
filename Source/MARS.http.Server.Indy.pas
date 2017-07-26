@@ -6,20 +6,22 @@
 unit MARS.http.Server.Indy;
 
 {$I MARS.inc}
-{$DENYPACKAGEUNIT OFF}
 
 interface
 
 uses
-  Classes, SysUtils
-  , SyncObjs
-  , IdContext, IdCustomHTTPServer, IdException, IdTCPServer, IdIOHandlerSocket
-  , IdSchedulerOfThreadPool
-  , idHTTPWebBrokerBridge
-
-  , MARS.Core.Engine
-  , MARS.Core.Token
-  ;
+  Classes,
+  SysUtils,
+  SyncObjs,
+  IdContext,
+  IdCustomHTTPServer,
+  IdException,
+  IdTCPServer,
+  IdIOHandlerSocket,
+  IdSchedulerOfThreadPool,
+  idHTTPWebBrokerBridge,
+  MARS.Core.Engine,
+  MARS.Core.Token;
 
 type
   TMARShttpServerIndy = class(TIdCustomHTTPServer)
@@ -93,6 +95,7 @@ begin
             + '}'
           + '}';
         end;
+        FEngine.DoHandleRequestEvent(LResponse);
       finally
         AResponseInfo.CustomHeaders.AddStrings(LResponse.CustomHeaders);
         SetCookies(AResponseInfo, LResponse);

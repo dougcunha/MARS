@@ -30,8 +30,9 @@ type
   EMARSEngineException = class(EMARSHttpException);
   TMARSEngine = class;
 
-  TMARSEngineBeforeHandleRequestEvent = TFunc<TMARSEngine, TMARSURL, Boolean>;
+  TMARSEngineBeforeHandleRequestEvent = TFunc<TMARSEngine, TMARSURL, TWebResponse, Boolean>;
   TMARSEngineAfterHandleRequestEvent = TProc<TMARSEngine, TMARSURL, TWebResponse>;
+  TMARSEngineOnHandleRequestEvent = TProc<TMARSEngine, TWebResponse>;
 
   TMARSEngine = class
   private
@@ -41,6 +42,7 @@ type
     FName: string;
     FOnBeforeHandleRequest: TMARSEngineBeforeHandleRequestEvent;
     FOnAfterHandleRequest: TMARSEngineAfterHandleRequestEvent;
+    FOnHandleRequest: TMARSEngineOnHandleRequestEvent;
 
     function GetBasePath: string;
     function GetPort: Integer;
@@ -54,7 +56,7 @@ type
     destructor Destroy; override;
 
     function HandleRequest(ARequest: TWebRequest; AResponse: TWebResponse): Boolean;
-
+    procedure DoHandleRequestEvent(AResponse: TWebResponse);
     function AddApplication(const AName, ABasePath: string;
       const AResources: array of string; const AParametersSliceName: string = ''): TMARSApplication; virtual;
 
@@ -70,6 +72,7 @@ type
 
     property OnBeforeHandleRequest: TMARSEngineBeforeHandleRequestEvent read FOnBeforeHandleRequest write FOnBeforeHandleRequest;
     property OnAfterHandleRequest: TMARSEngineAfterHandleRequestEvent read FOnAfterHandleRequest write FOnAfterHandleRequest;
+    property OnHandleRequest: TMARSEngineOnHandleRequestEvent read FOnHandleRequest write FOnHandleRequest;
   end;
 
   TMARSEngineRegistry=class
@@ -161,6 +164,12 @@ begin
   inherited;
 end;
 
+procedure TMARSEngine.DoHandleRequestEvent(AResponse: TWebResponse);
+begin
+  if Assigned(FOnHandleRequest) then
+    FOnHandleRequest(Self, AResponse);
+end;
+
 procedure TMARSEngine.EnumerateApplications(
   const ADoSomething: TProc<string, TMARSApplication>);
 var
@@ -189,7 +198,7 @@ begin
 
   LURL := TMARSURL.Create(ARequest);
   try
-    if Assigned(FOnBeforeHandleRequest) and not FOnBeforeHandleRequest(Self, LURL) then
+    if Assigned(FOnBeforeHandleRequest) and not FOnBeforeHandleRequest(Self, LURL, AResponse) then
       Exit;
 
     LApplicationPath := '';

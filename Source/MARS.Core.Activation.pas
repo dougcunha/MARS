@@ -360,9 +360,10 @@ var
   LMethodResult: TValue;
   LStream: TBytesStream;
   LContentType: string;
+  LStatusCode: Integer;
 begin
   Assert(Assigned(FMethod));
-
+  LStatusCode := Response.StatusCode;
   // cache initial ContentType value to check later if it has been changed
   LContentType := Response.ContentType;
 
@@ -424,8 +425,8 @@ begin
             Response.Content := FormatFloat('0.00000000', LMethodResult.AsType<Double>)
           else
             Response.Content := LMethodResult.ToString;
-
-          Response.StatusCode := 200;
+          if LStatusCode = Response.StatusCode then
+            Response.StatusCode := 200;
         end;
       finally
         FWriter := nil;
