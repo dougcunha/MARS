@@ -31,6 +31,7 @@ type
   TMARSEngine = class;
 
   TMARSEngineBeforeHandleRequestEvent = TFunc<TMARSEngine, TMARSURL, Boolean>;
+  TMARSEngineAfterHandleRequestEvent = TProc<TMARSEngine, TMARSURL, TWebResponse>;
 
   TMARSEngine = class
   private
@@ -39,6 +40,7 @@ type
     FParameters: TMARSParameters;
     FName: string;
     FOnBeforeHandleRequest: TMARSEngineBeforeHandleRequestEvent;
+    FOnAfterHandleRequest: TMARSEngineAfterHandleRequestEvent;
 
     function GetBasePath: string;
     function GetPort: Integer;
@@ -67,6 +69,7 @@ type
     property ThreadPoolSize: Integer read GetThreadPoolSize write SetThreadPoolSize;
 
     property OnBeforeHandleRequest: TMARSEngineBeforeHandleRequestEvent read FOnBeforeHandleRequest write FOnBeforeHandleRequest;
+    property OnAfterHandleRequest: TMARSEngineAfterHandleRequestEvent read FOnAfterHandleRequest write FOnAfterHandleRequest;
   end;
 
   TMARSEngineRegistry=class
@@ -234,6 +237,8 @@ begin
       end;
     end;
     Result := True;
+    if Assigned(FOnAfterHandleRequest) then
+      FOnAfterHandleRequest(Self, LURL, AResponse);
   finally
     LURL.Free;
   end;

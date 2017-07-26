@@ -38,6 +38,7 @@ type
     FSubResources: TDictionary<Integer, string>;
     FPathParams: TDictionary<Integer, string>;
     FBasePath: string;
+    FMethod: string;
 
     procedure SetURL(const Value: string);
 
@@ -80,6 +81,7 @@ type
     property Password: string read FPassword;
     property HostName: string read FHostName;
     property PortNumber: Integer read FPortNumber;
+    property Method: string read FMethod;
     property Path: string read FPath;
     property PathTokens: TArray<string> read FPathTokens;
     property Query: string read FQuery;
@@ -203,6 +205,7 @@ constructor TMARSURL.Create(AWebRequest: TWebRequest);
 var
   LQuery: string;
 begin
+  FMethod := AWebRequest.Method;
   LQuery := string(AWebRequest.Query);
   if LQuery <> '' then
     LQuery := '?' + LQuery;
@@ -453,7 +456,8 @@ end;
 function TMARSURL.ToString: string;
 begin
   Result := Format(
-      'URL: %s' + sLineBreak
+      '%s' + sLineBreak
+    + 'URL: %s' + sLineBreak
     + 'Protocol: %s' + sLineBreak
     + 'UserName: %s' + sLineBreak
     + 'Password: %s' + sLineBreak
@@ -467,7 +471,8 @@ begin
     + 'SubResources count: %d'
     + 'PathParams count: %d'
   , [
-    FURL
+      UpperCase(FMethod)
+    , FURL
     , FProtocol
     , FUserName
     , FPassword

@@ -14,7 +14,7 @@ uses
   , HttpApp
   , MARS.Core.Declarations
   , MARS.Core.Utils
-  , MARS.Core.URL  
+  , MARS.Core.URL
   , MARS.Core.JSON
   , MARS.Core.Activation.Interfaces
 ;
@@ -122,7 +122,10 @@ type
   end;
 
   QueryParamAttribute = class(NamedRequestParamAttribute)
+  private
+    FIsOptional: Boolean;
   public
+    constructor Create(const AName: string = ''; isOptional: Boolean = False); reintroduce;
     function GetValue(const ADestination: TRttiObject;
       const AActivation: IMARSActivation): TValue; override;
   end;
@@ -460,13 +463,25 @@ end;
 
 { QueryParamAttribute }
 
+constructor QueryParamAttribute.Create(const AName: string = ''; isOptional: Boolean = False);
+begin
+  inherited Create(AName);
+  FIsOptional := isOptional;
+end;
+
 function QueryParamAttribute.GetValue(const ADestination: TRttiObject;
   const AActivation: IMARSActivation): TValue;
+var
+  AName: string;
 begin
-  Result := StringToTValue(
-      AActivation.Request.QueryFields.Values[GetActualName(ADestination)]
-    , ADestination.GetRttiType
-  );
+  AName := GetActualName(ADestination);
+  if FIsOptional and (AActivation.Request.QueryFields.IndexOfName(AName) < 0) then
+    Result := TValue.Empty
+  else
+    Result := StringToTValue(
+        AActivation.Request.QueryFields.Values[AName]
+      , ADestination.GetRttiType
+    );
 end;
 
 { FormParamAttribute }
