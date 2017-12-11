@@ -214,6 +214,8 @@ begin
   if not Assigned(FToken) then
     FToken := GetContextValue(FRttiContext.GetType(Self.ClassType).GetField('FToken')).Value.AsType<TMARSToken>;
   Result := FToken;
+  if not Assigned(Result) then
+    raise Exception.Create('Token injection failed in MARSActivation');
 end;
 
 function TMARSActivation.GetURL: TMARSURL;
@@ -235,13 +237,17 @@ procedure TMARSActivation.FillResourceMethodParameters;
 var
   LParameters: TArray<TRttiParameter>;
   LIndex: Integer;
+  LParameter: TRttiParameter;
 begin
   Assert(Assigned(FMethod));
   try
     LParameters := FMethod.GetParameters;
     SetLength(FMethodArguments, Length(LParameters));
     for LIndex := Low(LParameters) to High(LParameters) do
-      FMethodArguments[LIndex] := GetMethodArgument(LParameters[LIndex]);
+    begin
+      LParameter := LParameters[LIndex];
+      FMethodArguments[LIndex] := GetMethodArgument(LParameter);
+    end;
   except
     on E: Exception do
       raise EMARSApplicationException.Create('Bad parameter values for resource method ' + FMethod.Name);
@@ -271,6 +277,10 @@ begin
 
   for LMethod in FResource.GetMethods do
   begin
+    if (LMethod.Visibility < TMemberVisibility.mvPublic)
+      or LMethod.IsConstructor or LMethod.IsDestructor
+    then
+      Continue;
     LMethodPath := '';
     LHttpMethodMatches := False;
 
@@ -531,32 +541,35 @@ begin
   Assert(Assigned(FConstructorInfo));
   Assert(Assigned(FMethod));
 
-  if DoBeforeInvoke then
-  begin
-    FInvocationTime := TStopwatch.StartNew;
-    FResourceInstance := FConstructorInfo.ConstructorFunc();
-    try
-      ContextInjection;
-      InvokeResourceMethod;
-    finally
-      FResourceInstance.Free;
+  try
+    if DoBeforeInvoke then
+    begin
+      FInvocationTime := TStopwatch.StartNew;
+      FResourceInstance := FConstructorInfo.ConstructorFunc();
+      try
+        ContextInjection;
+        InvokeResourceMethod;
+        FInvocationTime.Stop;
+        DoAfterInvoke;
+      finally
+        FResourceInstance.Free;
+      end;
     end;
-    FInvocationTime.Stop;
-    DoAfterInvoke;
+  finally
+    FreeContext;
   end;
 end;
 
 procedure TMARSActivation.CheckAuthentication;
 begin
+  if (Token.Token <> '') and Token.IsExpired then
+    Token.Clear;
   if FAuthorizationInfo.NeedsAuthentication then
-  begin
-    if Token.IsVerified and Token.IsExpired then
+    if ((Token.Token = '') or not Token.IsVerified) then
     begin
       Token.Clear;
-      Token.UpdateCookie;
-      raise EMARSAuthenticationException.Create('Token expired', 403);
+      raise EMARSAuthenticationException.Create('Token missing, not valid or expired', 403);
     end;
-  end;
 end;
 
 procedure TMARSActivation.CheckAuthorization;

@@ -115,13 +115,10 @@
 						<Source Name="MainSource">MARS.Utils.dpk</Source>
 					</Source>
 					<Excluded_Packages>
-						<Excluded_Packages Name="d:\vcl\CO2Bpl\agileLibDcl.bpl">File d:\vcl\CO2Bpl\agileLibDcl.bpl not found</Excluded_Packages>
-						<Excluded_Packages Name="D:\Vcl\co2bpl\cbo.comum.bpl">File D:\Vcl\co2bpl\cbo.comum.bpl not found</Excluded_Packages>
+						<Excluded_Packages Name="d:\vcl\CO2Bpl\agileLibDcl.bpl">NCR | Lib | Vcl</Excluded_Packages>
+						<Excluded_Packages Name="d:\vcl\CO2Bpl\cbo.comum.bpl">File d:\vcl\CO2Bpl\cbo.comum.bpl not found</Excluded_Packages>
 						<Excluded_Packages Name="d:\vcl\CO2Bpl\cbo.tools.bpl">File d:\vcl\CO2Bpl\cbo.tools.bpl not found</Excluded_Packages>
 						<Excluded_Packages Name="d:\vcl\CO2Bpl\cbo.sintegra.bpl">File d:\vcl\CO2Bpl\cbo.sintegra.bpl not found</Excluded_Packages>
-						<Excluded_Packages Name="$(BDSBIN)\dclbindcompfmx160.bpl">Embarcadero LiveBindings Components FireMonkey</Excluded_Packages>
-						<Excluded_Packages Name="$(BDSBIN)\dclbindcompvcl160.bpl">Embarcadero LiveBindings Components VCL</Excluded_Packages>
-						<Excluded_Packages Name="$(BDSBIN)\dclIPIndyImpl160.bpl">IP Abstraction Indy Implementation Design Time</Excluded_Packages>
 					</Excluded_Packages>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
@@ -153,19 +150,19 @@
 					</VersionInfoKeys>
 				</Delphi.Personality>
 				<Deployment Version="3">
-					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib">
+					<DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib">
-						<Platform Name="iOSSimulator"/>
-					</DeployFile>
-					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib">
+					<DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
 						<Platform Name="OSX32"/>
 					</DeployFile>
-					<DeployFile Class="DependencyModule" LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib">
+					<DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
 						<Platform Name="iOSSimulator"/>
 					</DeployFile>
-					<DeployFile Class="ProjectOutput" Configuration="Debug" LocalName="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\MARS.Utils240.bpl">
+					<DeployFile LocalName="$(BDS)\Redist\iossimulator\libPCRE.dylib" Class="DependencyModule">
+						<Platform Name="iOSSimulator"/>
+					</DeployFile>
+					<DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\MARS.Utils240.bpl" Configuration="Debug" Class="ProjectOutput">
 						<Platform Name="Win32">
 							<RemoteName>MARS_Utils.bpl</RemoteName>
 						</Platform>
@@ -198,13 +195,13 @@
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPad_Launch2048">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSDevice64">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -223,24 +220,24 @@
 					</DeployClass>
 					<DeployClass Name="ProjectOSXEntitlements"/>
 					<DeployClass Name="ProjectiOSResource">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSDevice64">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPhone_Launch640">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSDevice64">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -279,13 +276,13 @@
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPhone_Launch320">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSDevice64">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -365,13 +362,13 @@
 					</DeployClass>
 					<DeployClass Name="ProjectiOSInfoPList"/>
 					<DeployClass Name="iPad_Launch1024">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSDevice64">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -395,13 +392,13 @@
 					</DeployClass>
 					<DeployClass Name="ProjectiOSDeviceResourceRules"/>
 					<DeployClass Name="iPad_Launch768">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSDevice64">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -442,13 +439,13 @@
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPhone_Launch640x1136">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSDevice64">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -485,13 +482,13 @@
 						</Platform>
 					</DeployClass>
 					<DeployClass Name="iPad_Launch1536">
-						<Platform Name="iOSDevice32">
+						<Platform Name="iOSDevice64">
 							<Operation>1</Operation>
 						</Platform>
 						<Platform Name="iOSSimulator">
 							<Operation>1</Operation>
 						</Platform>
-						<Platform Name="iOSDevice64">
+						<Platform Name="iOSDevice32">
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
@@ -520,14 +517,14 @@
 							<Operation>1</Operation>
 						</Platform>
 					</DeployClass>
-					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSSimulator"/>
+					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSDevice32"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Android"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Win32"/>
 					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSDevice64"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Linux64"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="Win64"/>
+					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSSimulator"/>
 					<ProjectRoot Name="$(PROJECTNAME)" Platform="OSX32"/>
-					<ProjectRoot Name="$(PROJECTNAME).app" Platform="iOSDevice32"/>
 				</Deployment>
 				<Platforms>
 					<Platform value="Win64">False</Platform>

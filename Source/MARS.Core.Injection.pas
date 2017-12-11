@@ -82,6 +82,7 @@ end;
 destructor TMARSInjectionServiceRegistry.Destroy;
 begin
   FRegistry.Free;
+  FRttiContext.Free;
   inherited;
 end;
 
