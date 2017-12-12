@@ -55,6 +55,7 @@ type
 
 implementation
 
+
 type TDataModuleClass = class of TDataModule;
 
 {$ifdef DelphiXE}
@@ -152,19 +153,25 @@ end;
 
 function TMARSConstructorInfo.FindConstructor(AClass: TClass): TRttiMethod;
 var
+  LContext: TRttiContext;
   LType: TRttiType;
   LMethod: TRttiMethod;
 begin
   Result := nil;
-  LType := TRttiContext.Create.GetType(AClass);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(AClass);
 
-  for LMethod in LType.GetMethods do
-  begin
-    if LMethod.IsConstructor and (Length(LMethod.GetParameters) = 0) then
+    for LMethod in LType.GetMethods do
     begin
-      Result := LMethod;
-      Break;
+      if LMethod.IsConstructor and (Length(LMethod.GetParameters) = 0) then
+      begin
+        Result := LMethod;
+        Break;
+      end;
     end;
+  finally
+    LContext.Free;
   end;
 end;
 

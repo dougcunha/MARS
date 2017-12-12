@@ -228,7 +228,12 @@ var
   LResourceType: TRttiType;
   LResourceMetadata: TMARSResourceMetadata;
 begin
-  LResourceType := LRttiContext.GetType(AResourceInfo.TypeTClass);
+  LRttiContext := TRttiContext.Create;
+  try
+    LResourceType := LRttiContext.GetType(AResourceInfo.TypeTClass);
+  finally
+    LRttiContext.Free;
+  end;
 
   LResourceMetadata := TMARSResourceMetadata.Create(AApplicationMetadata);
   try

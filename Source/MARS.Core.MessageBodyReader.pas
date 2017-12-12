@@ -96,8 +96,7 @@ uses
     MARS.Core.Utils
   , MARS.Rtti.Utils
   , MARS.Core.Exceptions
-  , MARS.Core.Attributes
-  ;
+  , MARS.Core.Attributes;
 
 { TMARSMessageBodyReaderRegistry }
 
@@ -118,6 +117,7 @@ end;
 destructor TMARSMessageBodyReaderRegistry.Destroy;
 begin
   FRegistry.Free;
+  FRttiContext.Free;
   inherited;
 end;
 
@@ -231,19 +231,25 @@ begin
   Result :=
     function (AType: TRttiType; const AAttributes: TAttributeArray; AMediaType: string): Integer
     var
+      LContext: TRttiContext;
       LType: TRttiType;
     begin
       Result := 0;
       if not Assigned(AType) then
         Exit;
 
-      LType := TRttiContext.Create.GetType(TypeInfo(T));
-      if (AType = LType) then
-        Result := 100
-      else if AType.IsObjectOfType<T>(False) then
-        Result := 95
-      else if AType.IsObjectOfType<T> then
-        Result := 90;
+      LContext := TRttiContext.Create;
+      try
+        LType := LContext.GetType(TypeInfo(T));
+        if (AType = LType) then
+          Result := 100
+        else if AType.IsObjectOfType<T>(False) then
+          Result := 95
+        else if AType.IsObjectOfType<T> then
+          Result := 90;
+      finally
+        LContext.Free;
+      end;
     end
 end;
 
@@ -285,19 +291,26 @@ end;
 
 procedure TMARSMessageBodyReaderRegistry.RegisterReader(const AReaderClass: TClass;
   const AIsReadable: TIsReadableFunction; const AGetAffinity: TGetAffinityFunction);
+var
+  LContext: TRttiContext;
 begin
-  RegisterReader(
-    function : IMessageBodyReader
-    var LInstance: TObject;
-    begin
-      LInstance := AReaderClass.Create;
-      if not Supports(LInstance, IMessageBodyReader, Result) then
-        raise EMARSException.Create('Interface IMessageBodyReader not implemented');
-    end
-    , AIsReadable
-    , AGetAffinity
-    , TRttiContext.Create.GetType(AReaderClass)
-  );
+  LContext := TRttiContext.Create;
+  try
+    RegisterReader(
+      function : IMessageBodyReader
+      var LInstance: TObject;
+      begin
+        LInstance := AReaderClass.Create;
+        if not Supports(LInstance, IMessageBodyReader, Result) then
+          raise EMARSException.Create('Interface IMessageBodyReader not implemented');
+      end
+      , AIsReadable
+      , AGetAffinity
+      , LContext.GetType(AReaderClass)
+    );
+  finally
+    LContext.Free;
+  end;
 end;
 
 procedure TMARSMessageBodyReaderRegistry.RegisterReader(const AReaderClass,
@@ -319,17 +332,22 @@ begin
     AReaderClass
     , function (AType: TRttiType; const AAttributes: TAttributeArray; AMediaType: string): Boolean
       var
+        LContext: TRttiContext;
         LType: TRttiType;
       begin
-        LType := TRttiContext.Create.GetType(TypeInfo(T));
-        Result := False;
-        if Assigned(AType) then
-        begin
-          Result := (AType = LType);
-          if not Result then
-            Result := AType.IsObjectOfType<T>();
-        end;
-      end
+        LContext := TRttiContext.Create;
+        try
+          LType := LContext.GetType(TypeInfo(T));
+          Result := False;
+          if Assigned(AType) then
+          begin
+            Result := (AType = LType);
+            if not Result then
+              Result := AType.IsObjectOfType<T>();
+          end;
+        finally
+          LContext.Free;
+        end;      end
     , Self.GetDefaultClassAffinityFunc<T>()
   );
 end;

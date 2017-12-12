@@ -268,6 +268,7 @@ end;
 
 function ObjectToJSON(const AObject: TObject): TJSONObject;
 var
+  LContext: TRttiContext;
   LType: TRttiType;
   LProperty: TRttiProperty;
 begin
@@ -275,14 +276,19 @@ begin
   try
     if Assigned(AObject) then
     begin
-      LType := TRttiContext.Create.GetType(AObject.ClassType);
-      for LProperty in LType.GetProperties do
-      begin
-        if (LProperty.IsReadable)
-          and (not ((LProperty.PropertyType.IsInstance) or (LProperty.PropertyType.TypeKind = tkInterface)))
-          and (LProperty.Visibility in [mvPublic, mvPublished])
-        then
-          Result.AddPair(LProperty.Name, LProperty.GetValue(AObject).ToString);
+      LContext := TRttiContext.Create;
+      try
+        LType := LContext.GetType(AObject.ClassType);
+        for LProperty in LType.GetProperties do
+        begin
+          if (LProperty.IsReadable)
+            and (not ((LProperty.PropertyType.IsInstance) or (LProperty.PropertyType.TypeKind = tkInterface)))
+            and (LProperty.Visibility in [mvPublic, mvPublished])
+          then
+            Result.AddPair(LProperty.Name, LProperty.GetValue(AObject).ToString);
+        end;
+      finally
+        LContext.Free;
       end;
     end;
   except

@@ -125,6 +125,7 @@ destructor TMARSApplication.Destroy;
 begin
   FParameters.Free;
   FResourceRegistry.Free;
+  FRttiContext.Free;
   inherited;
 end;
 

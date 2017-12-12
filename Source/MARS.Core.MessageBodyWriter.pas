@@ -87,8 +87,7 @@ uses
     MARS.Core.Utils
   , MARS.Rtti.Utils
   , MARS.Core.Exceptions
-  , MARS.Core.Attributes
-  ;
+  , MARS.Core.Attributes;
 
 { TMARSMessageBodyRegistry }
 
@@ -109,6 +108,7 @@ end;
 destructor TMARSMessageBodyRegistry.Destroy;
 begin
   FRegistry.Free;
+  FRttiContext.Free;
   inherited;
 end;
 
@@ -228,16 +228,22 @@ begin
     function (AType: TRttiType; const AAttributes: TAttributeArray; AMediaType: string): Integer
     var
       LType: TRttiType;
+      LContext: TRttiContext;
     begin
       Result := AFFINITY_ZERO;
       if not Assigned(AType) then
         Exit;
 
-      LType := TRttiContext.Create.GetType(TypeInfo(T));
-      if (AType = LType) or (AType.IsObjectOfType<T>(False)) then
-        Result := AFFINITY_HIGH
-      else if AType.IsObjectOfType<T> then
-        Result := AFFINITY_MEDIUM;
+      LContext := TRttiContext.Create;
+      try
+        LType := LContext.GetType(TypeInfo(T));
+        if (AType = LType) or (AType.IsObjectOfType<T>(False)) then
+          Result := AFFINITY_HIGH
+        else if AType.IsObjectOfType<T> then
+          Result := AFFINITY_MEDIUM;
+      finally
+        LContext.Free;
+      end;
     end
 end;
 
@@ -282,19 +288,26 @@ end;
 
 procedure TMARSMessageBodyRegistry.RegisterWriter(const AWriterClass: TClass;
   const AIsWritable: TIsWritableFunction; const AGetAffinity: TGetAffinityFunction);
+var
+  LContext: TRttiContext;
 begin
-  RegisterWriter(
-    function : IMessageBodyWriter
-    var LInstance: TObject;
-    begin
-      LInstance := AWriterClass.Create;
-      if not Supports(LInstance, IMessageBodyWriter, Result) then
-        raise EMARSException.Create('Interface IMessageBodyWriter not implemented: ' + AWriterClass.ClassName);
-    end
-  , AIsWritable
-  , AGetAffinity
-  , TRttiContext.Create.GetType(AWriterClass)
-  );
+  LContext := TRttiContext.Create;
+  try
+    RegisterWriter(
+      function : IMessageBodyWriter
+      var LInstance: TObject;
+      begin
+        LInstance := AWriterClass.Create;
+        if not Supports(LInstance, IMessageBodyWriter, Result) then
+          raise EMARSException.Create('Interface IMessageBodyWriter not implemented: ' + AWriterClass.ClassName);
+      end
+    , AIsWritable
+    , AGetAffinity
+    , LContext.GetType(AWriterClass)
+    );
+  finally
+    LContext.Free;
+  end;
 end;
 
 procedure TMARSMessageBodyRegistry.RegisterWriter(const AWriterClass,
@@ -324,13 +337,18 @@ begin
   , function (AType: TRttiType; const AAttributes: TAttributeArray; AMediaType: string): Boolean
     var
       LType: TRttiType;
+      LContext: TRttiContext;
     begin
-      LType := TRttiContext.Create.GetType(TypeInfo(T));
-      Result := Assigned(AType) and (
-        (AType = LType) // non class types (records, primitives, Interfaces)
-        or (AType.IsInstance and AType.IsObjectOfType<T>) // class types
-      );
-    end
+      LContext := TRttiContext.Create;
+      try
+        LType := LContext.GetType(TypeInfo(T));
+        Result := Assigned(AType) and (
+          (AType = LType) // non class types (records, primitives, Interfaces)
+          or (AType.IsInstance and AType.IsObjectOfType<T>) // class types
+        );
+      finally
+        LContext.Free;
+      end;    end
   , LGetAffinityFunc
   );
 end;

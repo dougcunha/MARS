@@ -137,8 +137,7 @@ implementation
 uses
     DateUtils, Variants, StrUtils
   , MARS.Core.Utils
-  , MARS.Rtti.Utils
-;
+  , MARS.Rtti.Utils;
 
 class function TJSONObjectHelper.TValueToJSONValue(
   const AValue: TValue): TJSONValue;
@@ -435,24 +434,30 @@ var
   LFilterProc: TToJSONFilterProc;
   LAccept: Boolean;
   LValue: TValue;
+  LContext: TRttiContext;
 begin
-  LType := TRttiContext.Create.GetType(ARecord.TypeInfo);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(ARecord.TypeInfo);
 
-  LFilterProc := AFilterProc;
-  if not Assigned(LFilterProc) then
-    LFilterProc := GetRecordFilterProc(LType);
+    LFilterProc := AFilterProc;
+    if not Assigned(LFilterProc) then
+      LFilterProc := GetRecordFilterProc(LType);
 
-  for LField in LType.GetFields do
-  begin
-    LAccept := True;
-    if Assigned(LFilterProc) then
-      LFilterProc(LField, ARecord, Self, LAccept);
-
-    if LAccept then
+    for LField in LType.GetFields do
     begin
-      LValue := LField.GetValue(ARecord.GetReferenceToRawData);
-      WriteTValue(LField.Name, LValue);
+      LAccept := True;
+      if Assigned(LFilterProc) then
+        LFilterProc(LField, ARecord, Self, LAccept);
+
+      if LAccept then
+      begin
+        LValue := LField.GetValue(ARecord.GetReferenceToRawData);
+        WriteTValue(LField.Name, LValue);
+      end;
     end;
+  finally
+    LContext.Free;
   end;
 end;
 
@@ -665,8 +670,15 @@ begin
 end;
 
 function TJSONObjectHelper.ToRecord<T>(const AFilterProc: TToRecordFilterProc = nil): T;
+var
+  LContext: TRttiContext;
 begin
-  Result := ToRecord(TRttiContext.Create.GetType(TypeInfo(T)), AFilterProc).AsType<T>;
+  LContext := TRttiContext.Create;
+  try
+    Result := ToRecord(LContext.GetType(TypeInfo(T)), AFilterProc).AsType<T>;
+  finally
+    LContext.Free;
+  end;
 end;
 
 procedure TJSONObjectHelper.WriteBoolValue(const AName: string;

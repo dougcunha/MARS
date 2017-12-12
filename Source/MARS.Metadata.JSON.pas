@@ -100,7 +100,12 @@ var
   LJSONArray: TJSONArray;
 begin
   Result := TJSONObject.Create;
-  LType := LContext.GetType(Self.ClassType);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(Self.ClassType);
+  finally
+    LContext.Free;
+  end;
 
   // fields
   LFields := LType.GetFields;
@@ -174,7 +179,12 @@ var
   LFieldObject: TJSONObject;
   LFieldArray: TJSONArray;
 begin
-  LType := LContext.GetType(Self.ClassType);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(Self.ClassType);
+  finally
+    LContext.Free;
+  end;
 
   // fields
   LFields := LType.GetFields;

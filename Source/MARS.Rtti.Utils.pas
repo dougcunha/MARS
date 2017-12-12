@@ -94,8 +94,7 @@ implementation
 uses
     Generics.Collections
   , MARS.Core.Utils
-  , DateUtils
-;
+  , DateUtils;
 
 procedure SetArrayLength(var AArray: TValue; const AArrayType: TRttiType; const ANewSize: Integer);
 begin
@@ -115,7 +114,12 @@ var
   LProperty: TRttiProperty;
 begin
   Result := TValue.Empty;
-  LType := LContext.GetType(AInstance.ClassType);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(AInstance.ClassType);
+  finally
+    LContext.Free;
+  end;
   if Assigned(LType) then
   begin
     LProperty := LType.GetProperty(APropertyName);
@@ -147,7 +151,12 @@ var
   LMethod: TRttiMethod;
 begin
   Result := False;
-  LType := LContext.GetType(AInstance.TypeInfo);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(AInstance.TypeInfo);
+  finally
+    LContext.Free;
+  end;
   if Assigned(LType) then
   begin
     LMethod := LType.GetMethod(AMethodName);
@@ -426,13 +435,19 @@ end;
 function TRttiTypeHelper.IsDynamicArrayOf<T>(
   const AAllowInherithance: Boolean): Boolean;
 var
+  LContext: TRttiContext;
   LElementType: TRttiType;
   LType: TRttiType;
 begin
   Result := False;
   if Self is TRttiDynamicArrayType then
   begin
-    LType := TRttiContext.Create.GetType(TypeInfo(T));
+    LContext := TRttiContext.Create;
+    try
+      LType := LContext.GetType(TypeInfo(T));
+    finally
+      LContext.Free;
+    end;
     LElementType := TRttiDynamicArrayType(Self).ElementType;
 
     Result := (LElementType = LType) // exact match
@@ -471,10 +486,16 @@ end;
 function TRttiTypeHelper.IsObjectOfType<T>(
   const AAllowInherithance: Boolean): Boolean;
 var
+  LContext: TRttiContext;
   LType: TRttiType;
 begin
   Result := False;
-  LType := TRttiContext.Create.GetType(TypeInfo(T));
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(TypeInfo(T));
+  finally
+    LContext.Free;
+  end;
   if LType.IsInstance then
     Result := IsObjectOfType((LType as TRttiInstanceType).MetaclassType, AAllowInherithance);
 end;
@@ -540,7 +561,12 @@ var
   LType: TRttiType;
 begin
   Result := 0;
-  LType := LContext.GetType(AInstance.ClassType);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(AInstance.ClassType);
+  finally
+    LContext.Free;
+  end;
   if Assigned(LType) then
     Result := LType.ForEachAttribute<T>(ADoSomething);
 end;
@@ -554,7 +580,12 @@ var
   LBreak: Boolean;
 begin
   Result := 0;
-  LType := LContext.GetType(AInstance.ClassType);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(AInstance.ClassType);
+  finally
+    LContext.Free;
+  end;
   for LField in LType.GetFields do
   begin
     LBreak := False;
@@ -579,7 +610,12 @@ var
   LType: TRttiType;
 begin
   Result := 0;
-  LType := LContext.GetType(AInstance.ClassType);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(AInstance.ClassType);
+  finally
+    LContext.Free;
+  end;
   if Assigned(LType) then
     Result := LType.ForEachFieldWithAttribute<T>(ADoSomething);
 end;
@@ -596,7 +632,12 @@ var
   LType: TRttiType;
 begin
   Result := False;
-  LType := LContext.GetType(AInstance.ClassType);
+  LContext := TRttiContext.Create;
+  try
+    LType := LContext.GetType(AInstance.ClassType);
+  finally
+    LContext.Free;
+  end;
   if Assigned(LType) then
     Result := LType.HasAttribute<T>(ADoSomething);
 end;
@@ -637,6 +678,7 @@ end;
 class procedure TRecord<R>.FromDataSet(var ARecord: R;
   const ADataSet: TDataSet);
 var
+  LContext: TRttiContext;
   LRecordType: TRttiType;
   LRecordField: TRttiField;
   LDataSetField: TField;
@@ -645,7 +687,12 @@ begin
   if not ADataSet.Active then
     ADataSet.Active := True;
 
-  LRecordType := TRttiContext.Create.GetType(TypeInfo(R));
+  LContext := TRttiContext.Create;
+  try
+    LRecordType := LContext.GetType(TypeInfo(R));
+  finally
+    LContext.Free;
+  end;
   for LRecordField in LRecordType.GetFields do
   begin
     LDataSetField := ADataSet.FindField(LRecordField.Name);
@@ -676,12 +723,18 @@ end;
 class procedure TRecord<R>.ToDataSet(const ARecord: R; const ADataSet: TDataSet;
   const AAppend: Boolean);
 var
+  LContext: TRttiContext;
   LRecordType: TRttiType;
   LRecordField: TRttiField;
   LDataSetField: TField;
   LValue: TValue;
 begin
-  LRecordType := TRttiContext.Create.GetType(TypeInfo(R));
+  LContext := TRttiContext.Create;
+  try
+    LRecordType := LContext.GetType(TypeInfo(R));
+  finally
+    LContext.Free;
+  end;
 
   if AAppend then
     ADataSet.Append
