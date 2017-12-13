@@ -180,7 +180,7 @@ begin
       Result := TMARSMessageBodyRegistry.AFFINITY_VERY_LOW;
     end
   );
-
+//
   TMARSMessageBodyRegistry.Instance.RegisterWriter(
     TRecordWriter
     , function (AType: TRttiType; const AAttributes: TAttributeArray; AMediaType: string): Boolean
@@ -192,7 +192,7 @@ begin
         Result := TMARSMessageBodyRegistry.AFFINITY_MEDIUM;
       end
   );
-
+//
   TMARSMessageBodyRegistry.Instance.RegisterWriter(
     TArrayOfRecordWriter
     , function (AType: TRttiType; const AAttributes: TAttributeArray; AMediaType: string): Boolean

@@ -20,15 +20,18 @@ uses
 type
   TCanProvideValueFunction = reference to function (const ADestination: TRttiObject): Boolean;
 
-  TEntryInfo = record
+  TEntryInfo = class
+  public
     CreateInstance: TFunc<IMARSInjectionService>;
     CanProvideValue: TCanProvideValueFunction;
+  public
+    destructor Destroy; override;
   end;
 
   TMARSInjectionServiceRegistry = class
   private
   private
-    FRegistry: TList<TEntryInfo>;
+    FRegistry: TObjectList<TEntryInfo>;
     FRttiContext: TRttiContext;
     class var _Instance: TMARSInjectionServiceRegistry;
     class function GetInstance: TMARSInjectionServiceRegistry; static;
@@ -75,7 +78,7 @@ constructor TMARSInjectionServiceRegistry.Create;
 begin
   inherited Create;
 
-  FRegistry := TList<TEntryInfo>.Create;
+  FRegistry := TObjectList<TEntryInfo>.Create;
   FRttiContext := TRttiContext.Create;
 end;
 
@@ -152,10 +155,20 @@ procedure TMARSInjectionServiceRegistry.RegisterService(
 var
   LEntryInfo: TEntryInfo;
 begin
+  LEntryInfo := TEntryInfo.Create;
   LEntryInfo.CreateInstance := ACreationFunc;
   LEntryInfo.CanProvideValue := ACanProvideValueFunc;
 
   FRegistry.Add(LEntryInfo)
+end;
+
+{ TEntryInfo }
+
+destructor TEntryInfo.Destroy;
+begin
+  CreateInstance := nil;
+  CanProvideValue := nil;
+  inherited;
 end;
 
 end.

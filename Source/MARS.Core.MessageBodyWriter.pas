@@ -27,18 +27,19 @@ type
   TGetAffinityFunction = reference to function(AType: TRttiType;
     const AAttributes: TAttributeArray; AMediaType: string): Integer;
 
-  TEntryInfo = record
-    _RttiType: TRttiType;
+  TEntryInfo = class(TObject)
+  public
     RttiName: string;
     CreateInstance: TFunc<IMessageBodyWriter>;
     IsWritable: TIsWritableFunction;
     GetAffinity: TGetAffinityFunction;
+  public
+    destructor Destroy; override;
   end;
 
   TMARSMessageBodyRegistry = class
   private
-  private
-    FRegistry: TList<TEntryInfo>;
+    FRegistry: TObjectList<TEntryInfo>;
     FRttiContext: TRttiContext;
     class var _Instance: TMARSMessageBodyRegistry;
     class function GetInstance: TMARSMessageBodyRegistry; static;
@@ -52,7 +53,7 @@ type
       const ACreateInstance: TFunc<IMessageBodyWriter>;
       const AIsWritable: TIsWritableFunction;
       const AGetAffinity: TGetAffinityFunction;
-      AWriterRttiType: TRttiType); overload;
+      const AQualifiedName: string); overload;
 
     procedure RegisterWriter(
       const AWriterClass: TClass;
@@ -100,8 +101,7 @@ end;
 constructor TMARSMessageBodyRegistry.Create;
 begin
   inherited Create;
-
-  FRegistry := TList<TEntryInfo>.Create;
+  FRegistry := TObjectList<TEntryInfo>.Create;
   FRttiContext := TRttiContext.Create;
 end;
 
@@ -143,6 +143,7 @@ begin
   AMediaType := nil;
   AWriter := nil;
   LFound := False;
+  LCandidate := nil;
   LCandidateAffinity := -1;
   LCandidateMediaType := '';
   LCandidateQualityFactor := -1;
@@ -209,7 +210,7 @@ begin
           end;
         end;
 
-      if LFound then
+      if LFound and Assigned(LCandidate) then
       begin
         AWriter := LCandidate.CreateInstance();
         AMediaType := TMediaType.Create(LCandidateMediaType);
@@ -289,25 +290,21 @@ end;
 procedure TMARSMessageBodyRegistry.RegisterWriter(const AWriterClass: TClass;
   const AIsWritable: TIsWritableFunction; const AGetAffinity: TGetAffinityFunction);
 var
-  LContext: TRttiContext;
+  LQualifiedName: string;
 begin
-  LContext := TRttiContext.Create;
-  try
-    RegisterWriter(
-      function : IMessageBodyWriter
-      var LInstance: TObject;
-      begin
-        LInstance := AWriterClass.Create;
-        if not Supports(LInstance, IMessageBodyWriter, Result) then
-          raise EMARSException.Create('Interface IMessageBodyWriter not implemented: ' + AWriterClass.ClassName);
-      end
-    , AIsWritable
-    , AGetAffinity
-    , LContext.GetType(AWriterClass)
-    );
-  finally
-    LContext.Free;
-  end;
+  LQualifiedName := FRttiContext.GetType(AWriterClass).QualifiedName;
+  RegisterWriter(
+    function : IMessageBodyWriter
+    var LInstance: TObject;
+    begin
+      LInstance := AWriterClass.Create;
+      if not Supports(LInstance, IMessageBodyWriter, Result) then
+        raise EMARSException.Create('Interface IMessageBodyWriter not implemented: ' + AWriterClass.ClassName);
+    end
+  , AIsWritable
+  , AGetAffinity
+  , LQualifiedName
+  );
 end;
 
 procedure TMARSMessageBodyRegistry.RegisterWriter(const AWriterClass,
@@ -357,17 +354,26 @@ procedure TMARSMessageBodyRegistry.RegisterWriter(
   const ACreateInstance: TFunc<IMessageBodyWriter>;
   const AIsWritable: TIsWritableFunction;
   const AGetAffinity: TGetAffinityFunction;
-  AWriterRttiType: TRttiType);
+  const AQualifiedName: string);
 var
   LEntryInfo: TEntryInfo;
 begin
+  LEntryInfo := TEntryInfo.Create;
   LEntryInfo.CreateInstance := ACreateInstance;
   LEntryInfo.IsWritable := AIsWritable;
-  LEntryInfo._RttiType := AWriterRttiType;
-  LEntryInfo.RttiName := AWriterRttiType.QualifiedName;
+  LEntryInfo.RttiName := AQualifiedName;
   LEntryInfo.GetAffinity := AGetAffinity;
 
   FRegistry.Add(LEntryInfo)
+end;
+
+{ TEntryInfo }
+
+destructor TEntryInfo.Destroy;
+begin
+  CreateInstance := nil;
+  GetAffinity := nil;
+  inherited;
 end;
 
 end.

@@ -682,6 +682,7 @@ destructor TMARSActivation.Destroy;
 begin
   FreeContext;
   FContext.Free;
+  FRttiContext.Free;
   FreeAndNil(FURLPrototype);
   inherited;
 end;

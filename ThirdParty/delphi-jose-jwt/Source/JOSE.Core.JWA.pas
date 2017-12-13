@@ -91,6 +91,7 @@ end;
 
 class function TJWAEnumHelper.FromString(AString: string): TJWAEnum;
 begin
+  Result := None;
   if AString = 'none' then
     Result := None
   else if AString = 'HS256' then
